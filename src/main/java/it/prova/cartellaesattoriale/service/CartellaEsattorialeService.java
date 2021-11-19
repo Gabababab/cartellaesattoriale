@@ -6,13 +6,13 @@ import it.prova.cartellaesattoriale.model.CartellaEsattoriale;
 
 public interface CartellaEsattorialeService {
 
-	List<CartellaEsattoriale> listAllElements();
+	List<CartellaEsattoriale> listAllElements(boolean eager);
 
 //	List<CartellaEsattoriale> listAllElementsEager();
 
 	CartellaEsattoriale caricaSingoloElemento(Long id);
 
-//	CartellaEsattoriale caricaSingoloElementoConContribuenti(Long id);
+	CartellaEsattoriale caricaSingoloElementoConContribuenti(Long id);
 
 	CartellaEsattoriale aggiorna(CartellaEsattoriale cartellaEsattorialeInstance);
 

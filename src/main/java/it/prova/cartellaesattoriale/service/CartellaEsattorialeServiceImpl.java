@@ -15,17 +15,20 @@ public class CartellaEsattorialeServiceImpl implements CartellaEsattorialeServic
 	private CartellaEsattorialeRepository repository;
 
 
-	public List<CartellaEsattoriale> listAllElements() {
-		return (List<CartellaEsattoriale>)repository.findAll();
+	public List<CartellaEsattoriale> listAllElements(boolean eager) {
+		if (eager)
+			return (List<CartellaEsattoriale>) repository.findAllCartellaEsattorialeEager();
+
+		return (List<CartellaEsattoriale>) repository.findAll();
 	}
 
 	public CartellaEsattoriale caricaSingoloElemento(Long id) {
 		return repository.findById(id).orElse(null);
 	}
 
-//	public CartellaEsattoriale caricaSingoloElementoConFilms(Long id) {
-//		return repository.findByIdEager(id);
-//	}
+	public CartellaEsattoriale caricaSingoloElementoConContribuenti(Long id) {
+		return repository.findByIdEager(id);
+	}
 
 	@Transactional
 	public CartellaEsattoriale aggiorna(CartellaEsattoriale cartellaEsattorialeInstance) {

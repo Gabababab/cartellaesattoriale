@@ -9,11 +9,11 @@ public interface ContribuenteService {
 
 	List<Contribuente> listAllElements();
 	
-//	List<Contribuente> listAllElementsEager();
+	List<Contribuente> listAllElementsEager();
 
 	Contribuente caricaSingoloElemento(Long id);
 	
-//	Contribuente caricaSingoloElementoConCartelle(Long id);
+	Contribuente caricaSingoloElementoConCartelle(Long id);
 
 	Contribuente aggiorna(Contribuente contribuenteInstance);
 

@@ -1,6 +1,7 @@
 package it.prova.cartellaesattoriale.dto;
 
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -131,6 +132,12 @@ public class CartellaEsattorialeDTO {
 					ContribuenteDTO.buildContribuenteDTOFromModel(cartellaEsattorialeModel.getContribuente(), false));
 
 		return result;
+	}
+	
+	public static List<CartellaEsattorialeDTO> createCartellaEsattorialeDTOListFromModelList(List<CartellaEsattoriale> modelListInput, boolean includeContribuenti) {
+		return modelListInput.stream().map(filmEntity -> {
+			return CartellaEsattorialeDTO.buildCartellaEsattorialeDTOFromModel(filmEntity, includeContribuenti);
+		}).collect(Collectors.toList());
 	}
 	
 	public static Set<CartellaEsattorialeDTO> createCartellaEsattorialeDTOSetFromModelSet(Set<CartellaEsattoriale> modelListInput, boolean includeContribuenti) {

@@ -23,9 +23,9 @@ public class ContribuenteServiceImpl implements ContribuenteService {
 		return repository.findById(id).orElse(null);
 	}
 
-//	public Contribuente caricaSingoloElementoConFilms(Long id) {
-//		return repository.findByIdEager(id);
-//	}
+	public Contribuente caricaSingoloElementoConCartelle(Long id) {
+		return repository.findByIdEager(id);
+	}
 
 	@Transactional
 	public Contribuente aggiorna(Contribuente contribuenteInstance) {
@@ -54,8 +54,8 @@ public class ContribuenteServiceImpl implements ContribuenteService {
 //		return repository.findByNomeAndCognome(nome, cognome);
 //	}
 //
-//	@Override
-//	public List<Contribuente> listAllElementsEager() {
-//		return (List<Contribuente>)repository.findAllEager();
-//	}
+	@Override
+	public List<Contribuente> listAllElementsEager() {
+		return (List<Contribuente>)repository.findAllEager();
+	}
 }
