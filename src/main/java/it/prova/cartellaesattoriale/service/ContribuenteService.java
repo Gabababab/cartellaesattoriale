@@ -21,8 +21,7 @@ public interface ContribuenteService {
 
 	void rimuovi(Contribuente contribuenteInstance);
 	
-//	TO DO
-//	List<Contribuente> findByExample(Contribuente example);
+	List<Contribuente> findByExample(Contribuente example);
 	
 //	List<Contribuente> cercaByCognomeENomeILike(String term);
 //	

@@ -42,10 +42,9 @@ public class ContribuenteServiceImpl implements ContribuenteService {
 		repository.delete(contribuenteInstance);
 	}
 
-//	TO DO
-//	public List<Contribuente> findByExample(Contribuente example) {
-//		return repository.findByExample(example);
-//	}
+	public List<Contribuente> findByExample(Contribuente example) {
+		return repository.findByExample(example);
+	}
 
 //	public List<Contribuente> cercaByCognomeENomeILike(String term) {
 //		return repository.findByCognomeIgnoreCaseContainingOrNomeIgnoreCaseContainingOrderByNomeAsc(term, term);
