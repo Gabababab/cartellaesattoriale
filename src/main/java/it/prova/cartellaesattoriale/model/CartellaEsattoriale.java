@@ -30,7 +30,7 @@ public class CartellaEsattoriale {
 
 	@Column(name = "stato")
 	@Enumerated(EnumType.STRING)
-	private Stato stato;
+	private StatoCartella stato;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "contribuente_id", nullable = false)
@@ -40,7 +40,7 @@ public class CartellaEsattoriale {
 		super();
 	}
 
-	public CartellaEsattoriale(Long id, String descrizione, Integer importo, Stato stato, Contribuente contribuente) {
+	public CartellaEsattoriale(Long id, String descrizione, Integer importo, StatoCartella stato, Contribuente contribuente) {
 		super();
 		this.id = id;
 		this.descrizione = descrizione;
@@ -49,7 +49,7 @@ public class CartellaEsattoriale {
 		this.contribuente = contribuente;
 	}
 
-	public CartellaEsattoriale(String descrizione, Integer importo, Stato stato) {
+	public CartellaEsattoriale(String descrizione, Integer importo, StatoCartella stato) {
 		super();
 		this.descrizione = descrizione;
 		this.importo = importo;
@@ -80,11 +80,11 @@ public class CartellaEsattoriale {
 		this.importo = importo;
 	}
 
-	public Stato getStato() {
+	public StatoCartella getStatoCartella() {
 		return stato;
 	}
 
-	public void setStato(Stato stato) {
+	public void setStatoCartella(StatoCartella stato) {
 		this.stato = stato;
 	}
 

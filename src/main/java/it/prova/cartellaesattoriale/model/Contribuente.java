@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "regista")
@@ -58,6 +61,17 @@ public class Contribuente {
 
 	public Contribuente(String nome, String cognome, String codiceFiscale, Date dataDiNascita, String indirizzo) {
 		super();
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codiceFiscale = codiceFiscale;
+		this.dataDiNascita = dataDiNascita;
+		this.indirizzo = indirizzo;
+	}
+
+	public Contribuente(Long id, String nome, String cognome, String codiceFiscale, Date dataDiNascita,
+			String indirizzo) {
+		super();
+		this.id = id;
 		this.nome = nome;
 		this.cognome = cognome;
 		this.codiceFiscale = codiceFiscale;
