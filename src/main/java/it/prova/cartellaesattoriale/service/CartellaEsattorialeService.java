@@ -20,8 +20,7 @@ public interface CartellaEsattorialeService {
 
 	void rimuovi(CartellaEsattoriale cartellaEsattorialeInstance);
 
-//	TO DO
-//	List<CartellaEsattoriale> findByExample(CartellaEsattoriale example);
+	List<CartellaEsattoriale> findByExample(CartellaEsattoriale example);
 
 //	List<CartellaEsattoriale> cercaByCognomeENomeILike(String term);
 //	

@@ -42,10 +42,9 @@ public class CartellaEsattorialeServiceImpl implements CartellaEsattorialeServic
 		repository.delete(cartellaEsattorialeInstance);
 	}
 
-//	TO DO
-//	public List<CartellaEsattoriale> findByExample(CartellaEsattoriale example) {
-//		return repository.findByExample(example);
-//	}
+	public List<CartellaEsattoriale> findByExample(CartellaEsattoriale example) {
+		return repository.findByExample(example);
+	}
 
 //	public List<CartellaEsattoriale> cercaByCognomeENomeILike(String term) {
 //		return repository.findByCognomeIgnoreCaseContainingOrNomeIgnoreCaseContainingOrderByNomeAsc(term, term);
