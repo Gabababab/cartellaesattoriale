@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.prova.cartellaesattoriale.dto.CartellaEsattorialeDTO;
 import it.prova.cartellaesattoriale.dto.ContribuenteBusinessDTO;
 import it.prova.cartellaesattoriale.dto.ContribuenteDTO;
 import it.prova.cartellaesattoriale.model.CartellaEsattoriale;
 import it.prova.cartellaesattoriale.model.Contribuente;
+import it.prova.cartellaesattoriale.model.StatoCartella;
 import it.prova.cartellaesattoriale.service.ContribuenteService;
 import it.prova.cartellaesattoriale.web.api.exceptions.ContribuenteConCartelleAssociateException;
 import it.prova.cartellaesattoriale.web.api.exceptions.ContribuenteNotFoundException;
@@ -99,19 +101,53 @@ public class ContribuenteController {
 
 		List<ContribuenteBusinessDTO> result = new ArrayList<ContribuenteBusinessDTO>();
 		ContribuenteBusinessDTO contribuentePerVerifica;
-		
-		for(Contribuente contribuenteItem: daVerificare) {
-			
-			//carico il contribuente lazy
-			contribuentePerVerifica=ContribuenteBusinessDTO.buildContribuenteBusinessDTOFromModel(contribuenteItem, false);
-			
-			for(CartellaEsattoriale cartellaEsattorialeItem: contribuenteItem.getCartelle()) {
-				
-				if(cartellaEsattorialeItem.getStatoCartella().equals("IN_CONTENZIOSO")) {
+
+		for (Contribuente contribuenteItem : daVerificare) {
+
+			// carico il contribuente lazy
+
+			// -----Da Fixare-----
+			contribuentePerVerifica = ContribuenteBusinessDTO.buildContribuenteBusinessDTOFromModel(contribuenteItem,
+					false);
+
+			for (CartellaEsattoriale cartellaEsattorialeItem : contribuenteItem.getCartelle()) {
+
+				if (cartellaEsattorialeItem.getStatoCartella().equals(StatoCartella.IN_CONTENZIOSO)) {
 					contribuentePerVerifica.setDaAttenzionare(true);
 				}
 			}
 		}
 		return result;
+	}
+
+	@GetMapping("reportContribuenti")
+	public List<ContribuenteBusinessDTO> report() {
+
+		List<Contribuente> listaPerReport = contribuenteService.listAllElementsEager();
+		List<ContribuenteBusinessDTO> listaPerReportDTO = ContribuenteBusinessDTO
+				.createContribuenteBusinessDTOListFromModelList(listaPerReport, true);
+		
+		Integer importoTotale=0;
+		Integer totaleConclusoEPagato=0;
+		Integer totaleContenzioso=0;
+		
+		for(ContribuenteBusinessDTO contribuenteItem: listaPerReportDTO) {
+			
+			for(CartellaEsattorialeDTO cartellaItem: contribuenteItem.getCartelle()) {
+				
+				importoTotale+=cartellaItem.getImporto();
+				if(cartellaItem.getStato().equals(StatoCartella.IN_CONTENZIOSO))
+					totaleContenzioso+=cartellaItem.getImporto();
+				if(cartellaItem.getStato().equals(StatoCartella.CONCLUSA))
+					totaleConclusoEPagato+=cartellaItem.getImporto();
+					
+			}
+			
+			contribuenteItem.setConclusoEPagato(totaleConclusoEPagato);
+			contribuenteItem.setImportoCartelle(importoTotale);
+			contribuenteItem.setInContenzioso(totaleContenzioso);
+			
+		}
+		return listaPerReportDTO;
 	}
 }

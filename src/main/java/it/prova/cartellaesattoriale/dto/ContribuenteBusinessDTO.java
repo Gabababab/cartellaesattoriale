@@ -14,19 +14,22 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import it.prova.cartellaesattoriale.model.Contribuente;
 
+//DTO esclusivamente per le operazioni di business
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContribuenteBusinessDTO {
 
 	private Long id;
 
+	//Variabili ad uso esclusivo delle operazioni di business
 	private boolean daAttenzionare;
 
-	private Integer importoTot;
+	private Integer importoCartelle;
 
 	private Integer conclusoEPagato;
 
 	private Integer inContenzioso;
 
+	//variabili binding
 	@NotBlank(message = "{nome.notblank}")
 	private String nome;
 
@@ -79,12 +82,12 @@ public class ContribuenteBusinessDTO {
 		this.daAttenzionare = daAttenzionare;
 	}
 
-	public Integer getImportoTot() {
-		return importoTot;
+	public Integer getImportoCartelle() {
+		return importoCartelle;
 	}
 
-	public void setImportoTot(Integer importoTot) {
-		this.importoTot = importoTot;
+	public void setImportoCartelle(Integer importoCartelle) {
+		this.importoCartelle = importoCartelle;
 	}
 
 	public Integer getConclusoEPagato() {
