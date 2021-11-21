@@ -3,12 +3,13 @@ package it.prova.cartellaesattoriale.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.cartellaesattoriale.model.Contribuente;
 import it.prova.cartellaesattoriale.repository.contribuente.ContribuenteRepository;
 
-
+@Service
 public class ContribuenteServiceImpl implements ContribuenteService {
 
 	@Autowired

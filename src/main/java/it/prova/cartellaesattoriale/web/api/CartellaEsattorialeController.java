@@ -21,7 +21,6 @@ import it.prova.cartellaesattoriale.model.CartellaEsattoriale;
 import it.prova.cartellaesattoriale.service.CartellaEsattorialeService;
 import it.prova.cartellaesattoriale.web.api.exceptions.CartellaEsattorialeNotFoundException;
 
-
 @RestController
 @RequestMapping("api/cartellaesattoriale")
 public class CartellaEsattorialeController {
@@ -31,7 +30,8 @@ public class CartellaEsattorialeController {
 
 	@GetMapping
 	public List<CartellaEsattorialeDTO> getAll() {
-		return CartellaEsattorialeDTO.createCartellaEsattorialeDTOListFromModelList(cartellaEsattorialeService.listAllElements(true), true);
+		return CartellaEsattorialeDTO
+				.createCartellaEsattorialeDTOListFromModelList(cartellaEsattorialeService.listAllElements(true), true);
 	}
 
 	// gli errori di validazione vengono mostrati con 400 Bad Request ma
@@ -39,7 +39,8 @@ public class CartellaEsattorialeController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CartellaEsattorialeDTO createNew(@Valid @RequestBody CartellaEsattorialeDTO cartellaEsattorialeInput) {
-		CartellaEsattoriale cartellaEsattorialeInserito = cartellaEsattorialeService.inserisciNuovo(cartellaEsattorialeInput.buildCartellaEsattorialeModel());
+		CartellaEsattoriale cartellaEsattorialeInserito = cartellaEsattorialeService
+				.inserisciNuovo(cartellaEsattorialeInput.buildCartellaEsattorialeModel());
 		return CartellaEsattorialeDTO.buildCartellaEsattorialeDTOFromModel(cartellaEsattorialeInserito, true);
 	}
 
@@ -65,19 +66,22 @@ public class CartellaEsattorialeController {
 	}
 
 	@PutMapping("/{id}")
-	public CartellaEsattorialeDTO update(@Valid @RequestBody CartellaEsattorialeDTO cartellaEsattorialeInput, @PathVariable(required = true) Long id) {
+	public CartellaEsattorialeDTO update(@Valid @RequestBody CartellaEsattorialeDTO cartellaEsattorialeInput,
+			@PathVariable(required = true) Long id) {
 		CartellaEsattoriale cartellaEsattoriale = cartellaEsattorialeService.caricaSingoloElemento(id);
 
 		if (cartellaEsattoriale == null)
 			throw new CartellaEsattorialeNotFoundException("CartellaEsattoriale not found con id: " + id);
 
 		cartellaEsattorialeInput.setId(id);
-		CartellaEsattoriale cartellaEsattorialeAggiornato = cartellaEsattorialeService.aggiorna(cartellaEsattorialeInput.buildCartellaEsattorialeModel());
+		CartellaEsattoriale cartellaEsattorialeAggiornato = cartellaEsattorialeService
+				.aggiorna(cartellaEsattorialeInput.buildCartellaEsattorialeModel());
 		return CartellaEsattorialeDTO.buildCartellaEsattorialeDTOFromModel(cartellaEsattorialeAggiornato, false);
 	}
 
 	@PostMapping("/search")
 	public List<CartellaEsattorialeDTO> search(@RequestBody CartellaEsattorialeDTO example) {
-		return CartellaEsattorialeDTO.createCartellaEsattorialeDTOListFromModelList(cartellaEsattorialeService.findByExample(example.buildCartellaEsattorialeModel()), false);
+		return CartellaEsattorialeDTO.createCartellaEsattorialeDTOListFromModelList(
+				cartellaEsattorialeService.findByExample(example.buildCartellaEsattorialeModel()), false);
 	}
 }

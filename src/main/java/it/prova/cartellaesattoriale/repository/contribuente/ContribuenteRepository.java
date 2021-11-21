@@ -12,7 +12,7 @@ public interface ContribuenteRepository extends CrudRepository<Contribuente, Lon
 	@Query("select c from Contribuente c join fetch c.cartelle")
 	List<Contribuente> findAllEager();
 
-	@Query("select c from Contribuente c join fetch c.cartelle where c.id=?1")
+	@Query("select c from Contribuente c left join fetch c.cartelle where c.id=?1")
 	Contribuente findByIdEager(Long id);
 
 }

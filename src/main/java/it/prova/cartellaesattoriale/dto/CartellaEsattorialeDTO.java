@@ -29,22 +29,21 @@ public class CartellaEsattorialeDTO {
 	@Min(1)
 	private Integer importo;
 
-	@NotNull(message = "{stato.notblank}")
 	private StatoCartella stato;
 
 	@JsonIgnoreProperties(value = { "cartelle" })
 	@NotNull(message = "{contribuente.notnull}")
-	private ContribuenteDTO contribuenteDTO;
+	private ContribuenteDTO contribuente;
 
 	public CartellaEsattorialeDTO(Long id,
 			@NotBlank(message = "{descrizione.notblank}") @Size(min = 4, max = 15, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri") String descrizione,
 			@NotNull(message = "{importo.notnull}") @Min(1) Integer importo,
-			@NotNull(message = "{contribuente.notnull}") ContribuenteDTO contribuenteDTO) {
+			@NotNull(message = "{contribuente.notnull}") ContribuenteDTO contribuente) {
 		super();
 		this.id = id;
 		this.descrizione = descrizione;
 		this.importo = importo;
-		this.contribuenteDTO = contribuenteDTO;
+		this.contribuente = contribuente;
 	}
 
 	public CartellaEsattorialeDTO() {
@@ -64,13 +63,13 @@ public class CartellaEsattorialeDTO {
 			@NotBlank(message = "{descrizione.notblank}") @Size(min = 4, max = 15, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri") String descrizione,
 			@NotNull(message = "{importo.notnull}") @Min(1) Integer importo,
 			@NotNull(message = "{stato.notblank}") StatoCartella stato,
-			@NotNull(message = "{contribuente.notnull}") ContribuenteDTO contribuenteDTO) {
+			@NotNull(message = "{contribuente.notnull}") ContribuenteDTO contribuente) {
 		super();
 		this.id = id;
 		this.descrizione = descrizione;
 		this.importo = importo;
 		this.stato = stato;
-		this.contribuenteDTO = contribuenteDTO;
+		this.contribuente = contribuente;
 	}
 
 	public CartellaEsattorialeDTO(Long id,
@@ -108,17 +107,17 @@ public class CartellaEsattorialeDTO {
 		this.importo = importo;
 	}
 
-	public ContribuenteDTO getContribuenteDTO() {
-		return contribuenteDTO;
+	public ContribuenteDTO getContribuente() {
+		return contribuente;
 	}
 
-	public void setContribuenteDTO(ContribuenteDTO contribuenteDTO) {
-		this.contribuenteDTO = contribuenteDTO;
+	public void setContribuente(ContribuenteDTO contribuente) {
+		this.contribuente = contribuente;
 	}
 
 	public CartellaEsattoriale buildCartellaEsattorialeModel() {
 		return new CartellaEsattoriale(this.id, this.descrizione, this.importo, this.stato,
-				this.contribuenteDTO.buildContribuenteModel());
+				this.contribuente.buildContribuenteModel());
 	}
 
 	public static CartellaEsattorialeDTO buildCartellaEsattorialeDTOFromModel(
@@ -128,7 +127,7 @@ public class CartellaEsattorialeDTO {
 				cartellaEsattorialeModel.getStatoCartella());
 
 		if (includeContribuenti)
-			result.setContribuenteDTO(
+			result.setContribuente(
 					ContribuenteDTO.buildContribuenteDTOFromModel(cartellaEsattorialeModel.getContribuente(), false));
 
 		return result;

@@ -1,5 +1,6 @@
 package it.prova.cartellaesattoriale.web.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,15 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.prova.cartellaesattoriale.dto.ContribuenteBusinessDTO;
 import it.prova.cartellaesattoriale.dto.ContribuenteDTO;
+import it.prova.cartellaesattoriale.model.CartellaEsattoriale;
 import it.prova.cartellaesattoriale.model.Contribuente;
 import it.prova.cartellaesattoriale.service.ContribuenteService;
 import it.prova.cartellaesattoriale.web.api.exceptions.ContribuenteConCartelleAssociateException;
 import it.prova.cartellaesattoriale.web.api.exceptions.ContribuenteNotFoundException;
 
-
 @RestController
-@RequestMapping("api/contribuente")
+@RequestMapping("/api/contribuente")
 public class ContribuenteController {
 
 	@Autowired
@@ -34,7 +36,7 @@ public class ContribuenteController {
 	public List<ContribuenteDTO> getAll() {
 		// senza DTO qui hibernate dava il problema del N + 1 SELECT
 		// (probabilmente dovuto alle librerie che serializzano in JSON)
-		return ContribuenteDTO.createContribuenteDTOListFromModelList(contribuenteService.listAllElementsEager(), true);
+		return ContribuenteDTO.createContribuenteDTOListFromModelList(contribuenteService.listAllElements(), true);
 	}
 
 	@GetMapping("/{id}")
@@ -52,12 +54,14 @@ public class ContribuenteController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ContribuenteDTO createNew(@Valid @RequestBody ContribuenteDTO contribuenteInput) {
-		Contribuente contribuenteInserito = contribuenteService.inserisciNuovo(contribuenteInput.buildContribuenteModel());
+		Contribuente contribuenteInserito = contribuenteService
+				.inserisciNuovo(contribuenteInput.buildContribuenteModel());
 		return ContribuenteDTO.buildContribuenteDTOFromModel(contribuenteInserito, false);
 	}
 
 	@PutMapping("/{id}")
-	public ContribuenteDTO update(@Valid @RequestBody ContribuenteDTO contribuenteInput, @PathVariable(required = true) Long id) {
+	public ContribuenteDTO update(@Valid @RequestBody ContribuenteDTO contribuenteInput,
+			@PathVariable(required = true) Long id) {
 		Contribuente contribuente = contribuenteService.caricaSingoloElemento(id);
 
 		if (contribuente == null)
@@ -84,7 +88,30 @@ public class ContribuenteController {
 
 	@PostMapping("/search")
 	public List<ContribuenteDTO> search(@RequestBody ContribuenteDTO example) {
-		return ContribuenteDTO.createContribuenteDTOListFromModelList(contribuenteService.findByExample(example.buildContribuenteModel()),
-				false);
+		return ContribuenteDTO.createContribuenteDTOListFromModelList(
+				contribuenteService.findByExample(example.buildContribuenteModel()), false);
+	}
+
+	@GetMapping("/verificaContenziosi")
+	public List<ContribuenteBusinessDTO> verificaContenziosi() {
+
+		List<Contribuente> daVerificare = contribuenteService.listAllElementsEager();
+
+		List<ContribuenteBusinessDTO> result = new ArrayList<ContribuenteBusinessDTO>();
+		ContribuenteBusinessDTO contribuentePerVerifica;
+		
+		for(Contribuente contribuenteItem: daVerificare) {
+			
+			//carico il contribuente lazy
+			contribuentePerVerifica=ContribuenteBusinessDTO.buildContribuenteBusinessDTOFromModel(contribuenteItem, false);
+			
+			for(CartellaEsattoriale cartellaEsattorialeItem: contribuenteItem.getCartelle()) {
+				
+				if(cartellaEsattorialeItem.getStatoCartella().equals("IN_CONTENZIOSO")) {
+					contribuentePerVerifica.setDaAttenzionare(true);
+				}
+			}
+		}
+		return result;
 	}
 }
